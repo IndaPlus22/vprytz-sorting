@@ -1,3 +1,5 @@
+require "helper"
+
 function love.load()
     love.window.setTitle("IndaPlus22/vprytz-sorting")
 end
