@@ -1,17 +1,18 @@
 require "helper"
 require "sorting"
 
-num_numbers = 200
-speed = 8 / num_numbers
-
 app_state = {
     menu = true,
     algorithm = 0,
     arr = {},
     i = 2,
     j = 0,
-    max_offset = 1
+    max_offset = 1,
+    num_numbers = 300,
+    speed = 0
 }
+
+app_state.speed = 8 / app_state.num_numbers
 
 function beep()
     local freq = math.random(500, 10000)
@@ -33,7 +34,7 @@ end
 function reset_arr()
     -- get array of numbers from 1 to num_numbers
     -- then shuffle it
-    app_state.arr = shuffle(range(1, num_numbers))
+    app_state.arr = shuffle(range(1, app_state.num_numbers))
 end
 
 function love.load()
@@ -74,6 +75,16 @@ function love.keyreleased(key)
             app_state.i = 1
             app_state.max_offset = 0
         end
+        if key == "+" then
+            app_state.num_numbers = app_state.num_numbers + 10
+            app_state.speed = 8 / app_state.num_numbers
+            reset_arr()
+        end
+        if key == "-" then
+            app_state.num_numbers = app_state.num_numbers - 10
+            app_state.speed = 8 / app_state.num_numbers
+            reset_arr()
+        end
     end
 end
 
@@ -86,7 +97,7 @@ function love.update(dt)
             app_state.j = 0
         end
 
-        if count > speed and app_state.i < #app_state.arr + app_state.max_offset then
+        if count > app_state.speed and app_state.i < #app_state.arr + app_state.max_offset then
             count = 0
             beep()
             if app_state.algorithm == 1 then
@@ -102,12 +113,16 @@ function love.update(dt)
 end
 
 function love.draw()
+    love.graphics.print("Current FPS: " .. tostring(love.timer.getFPS()), 10, 10)
+
     if app_state.menu then
         local menu_text = {"Press number to sort using specified algorithm", "Press R at any time to restart",
-                           "1. Insertion sort", "2. Selection sort"}
+                           "1. Insertion sort", "2. Selection sort",
+                           "Increase numbers of numbers with 10 pressing +, decrease with 10 by pressing -",
+                           "Number of numbers to sort: " .. tostring(app_state.num_numbers)}
 
         for i = 1, #menu_text do
-            love.graphics.print(menu_text[i], 10, 10 + 15 * (i - 1))
+            love.graphics.print(menu_text[i], 10, 25 + 15 * (i - 1))
         end
     else
         -- get window dimensions
@@ -115,12 +130,12 @@ function love.draw()
         local window_width = love.graphics.getWidth()
 
         -- box width will be window_width / num_numbers
-        local box_width = window_width / num_numbers
+        local box_width = window_width / app_state.num_numbers
 
         -- draw each num in arr as "box"
         for i = 1, #app_state.arr do
             -- box_height "percentage" of screen
-            local box_height = app_state.arr[i] * (window_height / num_numbers)
+            local box_height = app_state.arr[i] * (window_height / app_state.num_numbers)
             local x = (i - 1) * box_width
 
             if i == app_state.i then
