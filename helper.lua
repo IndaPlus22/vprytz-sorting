@@ -15,3 +15,14 @@ function print_table(t)
     end
     print(str)
 end
+
+-- shuffle given array randomly
+function shuffle(t)
+    local n = #t
+    while n >= 2 do
+        local k = math.random(n)
+        t[n], t[k] = t[k], t[n]
+        n = n - 1
+    end
+    return t
+end
