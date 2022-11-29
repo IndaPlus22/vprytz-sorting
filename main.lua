@@ -27,6 +27,9 @@ function love.load()
 
     -- reset_arr
     reset_arr()
+
+    -- timer
+    count = 0
 end
 
 function love.keyreleased(key)
@@ -36,6 +39,7 @@ function love.keyreleased(key)
     if key == "r" then
         app_state.menu = true
         app_state.algorithm = 0
+        count = 0
         reset_arr()
     end
     if app_state.menu then
@@ -46,6 +50,22 @@ function love.keyreleased(key)
         if key == "2" then
             app_state.menu = false
             app_state.algorithm = 2
+        end
+    end
+end
+
+function love.update(dt)
+    if not app_state.menu then
+        count = count + dt
+
+        if count > 1 then
+            count = 0
+            if app_state.algorithm == 1 then
+                insertion_sort(app_state.arr)
+            end
+            if app_state.algorithm == 2 then
+                selection_sort(app_state.arr)
+            end
         end
     end
 end
