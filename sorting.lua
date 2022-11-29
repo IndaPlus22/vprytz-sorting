@@ -15,8 +15,20 @@ function insertion_sort(arr)
         arr[j + 1] = x
         i = i + 1
     end
+end
 
-    return arr
+function insertion_sort_step(arr, i)
+    local x = arr[i]
+    local j = i - 1
+
+    while j >= 1 and arr[j] > x do
+        arr[j + 1] = arr[j]
+        j = j - 1
+    end
+    arr[j + 1] = x
+    i = i + 1
+
+    return j + 1
 end
 
 -- selection sort
@@ -39,7 +51,25 @@ function selection_sort(arr)
         end
         i = i + 1
     end
-    return arr
+end
+
+function selection_sort_step(arr, i)
+    local min_index = i
+    local j = i + 1
+    while j < #arr do
+        if arr[j] < arr[min_index] then
+            min_index = j
+        end
+        j = j + 1
+    end
+    if min_index ~= i then
+        -- swap arr[i] and arr[min_index]
+        local temp = arr[i]
+        arr[i] = arr[min_index]
+        arr[min_index] = temp
+    end
+    i = i + 1
+    return 0
 end
 
 -- testing

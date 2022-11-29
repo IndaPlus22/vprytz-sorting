@@ -1,13 +1,34 @@
 require "helper"
 require "sorting"
 
-num_numbers = 50
+num_numbers = 200
+speed = 8 / num_numbers
 
 app_state = {
     menu = true,
     algorithm = 0,
-    arr = {}
+    arr = {},
+    i = 2,
+    j = 0,
+    max_offset = 1
 }
+
+function beep()
+    local freq = math.random(500, 10000)
+
+    local rate = 44100 -- samples per second
+    local length = 1 / 64 -- 0.03125 seconds
+    -- local tone = 440.0 -- Hz
+    local tone = freq
+    local p = math.floor(rate / tone) -- 100 (wave length in samples)
+    local soundData = love.sound.newSoundData(math.floor(length * rate), rate, 16, 1)
+    for i = 0, soundData:getSampleCount() - 1 do
+        --	soundData:setSample(i, math.sin(2*math.pi*i/p)) -- sine wave.
+        soundData:setSample(i, i % p < p / 2 and 1 or -1) -- square wave; the first half of the wave is 1, the second half is -1.
+    end
+    local source = love.audio.newSource(soundData)
+    source:play()
+end
 
 function reset_arr()
     -- get array of numbers from 1 to num_numbers
@@ -39,6 +60,7 @@ function love.keyreleased(key)
     if key == "r" then
         app_state.menu = true
         app_state.algorithm = 0
+        app_state.i = 2
         count = 0
         reset_arr()
     end
@@ -46,10 +68,13 @@ function love.keyreleased(key)
         if key == "1" then
             app_state.menu = false
             app_state.algorithm = 1
+            app_state.max_offset = 1
         end
         if key == "2" then
             app_state.menu = false
             app_state.algorithm = 2
+            app_state.i = 1
+            app_state.max_offset = 0
         end
     end
 end
@@ -58,13 +83,21 @@ function love.update(dt)
     if not app_state.menu then
         count = count + dt
 
-        if count > 1 then
+        if app_state.i > #app_state.arr then
+            -- reset j
+            app_state.j = 0
+        end
+
+        if count > speed and app_state.i < #app_state.arr + app_state.max_offset then
             count = 0
+            beep()
             if app_state.algorithm == 1 then
-                insertion_sort(app_state.arr)
+                app_state.j = insertion_sort_step(app_state.arr, app_state.i)
+                app_state.i = app_state.i + 1
             end
             if app_state.algorithm == 2 then
-                selection_sort(app_state.arr)
+                app_state.j = selection_sort_step(app_state.arr, app_state.i)
+                app_state.i = app_state.i + 1
             end
         end
     end
@@ -91,6 +124,14 @@ function love.draw()
             -- box_height "percentage" of screen
             local box_height = app_state.arr[i] * (window_height / num_numbers)
             local x = (i - 1) * box_width
+
+            if i == app_state.i then
+                love.graphics.setColor(0, 255, 0)
+            elseif i == app_state.j then
+                love.graphics.setColor(255, 0, 0)
+            else
+                love.graphics.setColor(255, 255, 255)
+            end
 
             love.graphics.rectangle("fill", x, window_height, box_width, -box_height)
         end
