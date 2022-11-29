@@ -40,9 +40,7 @@ function love.load()
     -- set title and window
     love.window.setMode(960, 720, {
         resizable = true,
-        vsync = 0,
-        minwidth = 800,
-        minheight = 600
+        vsync = 0
     })
     love.window.setTitle("IndaPlus22/vprytz-sorting")
 
