@@ -19,15 +19,42 @@ function insertion_sort(arr)
     return arr
 end
 
+
+--selection sort
+function selection_sort(arr)
+    local i = 1
+    while i < #arr-2 do
+        local min_index = i
+        local j = i + 1
+        while j < #arr do
+            if arr[j] < arr[min_index] then
+                min_index = j
+            end
+            j = j+1
+        end
+        if min_index ~= i then
+            -- swap arr[i] and arr[min_index]
+            local temp = arr[i]
+            arr[i] = arr[min_index]
+            arr[min_index] = temp
+        end
+        i = i+1
+    end
+    return arr
+end
+
 -- testing
 local testing_arrs = {
-    {3, 1, 4, 9, 16, 25, 36, 49, 64, 81},
+    {36, 25, 49, 4, 1, 3, 9, 81, 16, 64},
     {9, 8, 7, 6, 5, 4, 3, 2, 1},
     {27, 109, 1083, 19, 20, 14}
 }
 
 for i = 1, #testing_arrs do
     print_table(testing_arrs[i])
+    print("Insertion sort:")
     print_table(insertion_sort(testing_arrs[i]))
+    print("Selection sort:")
+    print_table(selection_sort(testing_arrs[i]))
     print()
 end
