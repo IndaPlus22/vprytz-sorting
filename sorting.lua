@@ -151,29 +151,29 @@ function merge(a, b)
     return c
 end
 
-function get_test_lists()
-    return {{36, 25, 49, 4, 1, 3, 9, 81, 16, 64}, {9, 8, 7, 6, 5, 4, 3, 2, 1}, {27, 109, 1083, 19, 20, 14},
-            shuffle(range(1, 40))}
-end
+-- function get_test_lists()
+--     return {{36, 25, 49, 4, 1, 3, 9, 81, 16, 64}, {9, 8, 7, 6, 5, 4, 3, 2, 1}, {27, 109, 1083, 19, 20, 14},
+--             shuffle(range(1, 40))}
+-- end
 
-print("Selection sort")
-for i = 1, #get_test_lists() do
-    local list = get_test_lists()[i]
-    print_table(list)
-    print_table(selection_sort(list))
-end
+-- print("Selection sort")
+-- for i = 1, #get_test_lists() do
+--     local list = get_test_lists()[i]
+--     print_table(list)
+--     print_table(selection_sort(list))
+-- end
 
-print("Insertion sort")
-for i = 1, #get_test_lists() do
-    local list = get_test_lists()[i]
-    print_table(list)
-    print_table(insertion_sort(list))
-end
+-- print("Insertion sort")
+-- for i = 1, #get_test_lists() do
+--     local list = get_test_lists()[i]
+--     print_table(list)
+--     print_table(insertion_sort(list))
+-- end
 
-print("Merge sort")
-for i = 1, #get_test_lists() do
-    local list = get_test_lists()[i]
-    print_table(list)
-    print_table(merge_sort(list))
-end
+-- print("Merge sort")
+-- for i = 1, #get_test_lists() do
+--     local list = get_test_lists()[i]
+--     print_table(list)
+--     print_table(merge_sort(list))
+-- end
 

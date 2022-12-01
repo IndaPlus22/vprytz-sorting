@@ -18,9 +18,15 @@ Assuming `love` is in your path, run:
 love .
 ```
 
+Sorting algorithms are implemented in `sorting.lua`.
+
 ## Implemented algorithms
 
 - Insertion sort
 - Selection sort
 - Merge sort
 - Bubble sort
+
+## Note about testing
+
+There are testing libraries for LUA but most of them look outdated. There are also no tests for LÖVE.
