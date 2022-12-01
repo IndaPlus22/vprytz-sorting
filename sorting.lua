@@ -169,6 +169,14 @@ function bubble_sort(arr)
     return arr
 end
 
+function bubble_sort_step(arr, i, j)
+    if arr[j] > arr[j + 1] then
+        local temp = arr[j]
+        arr[j] = arr[j + 1]
+        arr[j + 1] = temp
+    end
+end
+
 function get_test_lists()
     return {{36, 25, 49, 4, 1, 3, 9, 81, 16, 64}, {9, 8, 7, 6, 5, 4, 3, 2, 1}, {27, 109, 1083, 19, 20, 14},
             shuffle(range(1, 40))}

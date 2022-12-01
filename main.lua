@@ -6,7 +6,7 @@ app_state = {
     algorithm = 0,
     arr = {},
     i = 2,
-    j = 0,
+    j = 1,
     max_offset = 1,
     num_numbers = 300,
     speed = 0
@@ -75,6 +75,12 @@ function love.keyreleased(key)
             app_state.i = 1
             app_state.max_offset = 0
         end
+        if key == "3" then
+            app_state.menu = false
+            app_state.algorithm = 3
+            app_state.i = 1
+            app_state.max_offset = 0
+        end
         if key == "+" then
             app_state.num_numbers = app_state.num_numbers + 10
             app_state.speed = 8 / app_state.num_numbers
@@ -92,6 +98,13 @@ function love.update(dt)
     if not app_state.menu then
         count = count + dt
 
+        if app_state.algorithm == 3 then
+            if app_state.j >= #app_state.arr then
+                app_state.i = app_state.i + 1
+                app_state.j = 1
+            end
+        end
+
         if app_state.i > #app_state.arr then
             -- reset j
             app_state.j = 0
@@ -108,6 +121,11 @@ function love.update(dt)
                 app_state.j = selection_sort_step(app_state.arr, app_state.i)
                 app_state.i = app_state.i + 1
             end
+            if app_state.algorithm == 3 then
+                print("debug, i,j " .. app_state.i .. ", " .. app_state.j)
+                bubble_sort_step(app_state.arr, app_state.i, app_state.j)
+                app_state.j = app_state.j + 1
+            end
         end
     end
 end
@@ -117,7 +135,7 @@ function love.draw()
 
     if app_state.menu then
         local menu_text = {"Press number to sort using specified algorithm", "Press R at any time to restart",
-                           "1. Insertion sort", "2. Selection sort",
+                           "1. Insertion sort", "2. Selection sort", "3. Bubble sort",
                            "Increase numbers of numbers with 10 pressing +, decrease with 10 by pressing -",
                            "Number of numbers to sort: " .. tostring(app_state.num_numbers)}
 
