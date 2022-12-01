@@ -151,10 +151,28 @@ function merge(a, b)
     return c
 end
 
--- function get_test_lists()
---     return {{36, 25, 49, 4, 1, 3, 9, 81, 16, 64}, {9, 8, 7, 6, 5, 4, 3, 2, 1}, {27, 109, 1083, 19, 20, 14},
---             shuffle(range(1, 40))}
--- end
+function bubble_sort(arr)
+    local i = 1
+    while i < #arr do
+        local j = 1
+        while j < #arr do
+            if arr[j] > arr[j + 1] then
+                local temp = arr[j]
+                arr[j] = arr[j + 1]
+                arr[j + 1] = temp
+            end
+            j = j + 1
+        end
+        i = i + 1
+    end
+
+    return arr
+end
+
+function get_test_lists()
+    return {{36, 25, 49, 4, 1, 3, 9, 81, 16, 64}, {9, 8, 7, 6, 5, 4, 3, 2, 1}, {27, 109, 1083, 19, 20, 14},
+            shuffle(range(1, 40))}
+end
 
 -- print("Selection sort")
 -- for i = 1, #get_test_lists() do
@@ -177,3 +195,9 @@ end
 --     print_table(merge_sort(list))
 -- end
 
+-- print("Bubble sort")
+-- for i = 1, #get_test_lists() do
+--     local list = get_test_lists()[i]
+--     print_table(list)
+--     print_table(bubble_sort(list))
+-- end
