@@ -14,13 +14,13 @@ app_state = {
 
 app_state.speed = 8 / app_state.num_numbers
 
-function beep()
-    local freq = math.random(500, 10000)
+function beep(percentage)
+    -- local tone = 500 / 10000 * percentage
 
     local rate = 44100 -- samples per second
     local length = 1 / 64 -- 0.03125 seconds
     -- local tone = 440.0 -- Hz
-    local tone = freq
+    local tone = percentage * 10000
     local p = math.floor(rate / tone) -- 100 (wave length in samples)
     local soundData = love.sound.newSoundData(math.floor(length * rate), rate, 16, 1)
     for i = 0, soundData:getSampleCount() - 1 do
@@ -99,7 +99,7 @@ function love.update(dt)
 
         if count > app_state.speed and app_state.i < #app_state.arr + app_state.max_offset then
             count = 0
-            beep()
+            beep(app_state.j / #app_state.arr)
             if app_state.algorithm == 1 then
                 app_state.j = insertion_sort_step(app_state.arr, app_state.i)
                 app_state.i = app_state.i + 1
