@@ -17,3 +17,10 @@ Assuming `love` is in your path, run:
 ```bash
 love .
 ```
+
+## Implemented algorithms
+
+- Insertion sort
+- Selection sort
+- Merge sort
+- Bubble sort
